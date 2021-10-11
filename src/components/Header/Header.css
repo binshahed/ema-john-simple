@@ -3,6 +3,7 @@
 }
 .header img {
   height: 80px;
+  padding: 30px;
 }
 .header nav {
   background-color: #000;

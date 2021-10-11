@@ -1,0 +1,16 @@
+.product-container {
+  padding: 20px 0;
+  display: flex;
+  border-bottom: 1px solid lightgray;
+}
+.product-container .image-container {
+  margin-right: 20px;
+}
+
+.product-container .product-body-container button {
+  border: none;
+  padding: 5px 15px;
+  background-color: goldenrod;
+  border-radius: 5px;
+  cursor: pointer;
+}
