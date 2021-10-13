@@ -16,14 +16,14 @@ const Shop = () => {
 
   useEffect(() => {
     const getKeyLSG = getStoredCart();
-    console.log(getKeyLSG);
-    const cartProduct = [];
-    for (const key in getKeyLSG) {
-      // console.log(key, (getKeyLSG.key = getKeyLSG[key]));
-      // console.log(key, getKeyLSG[key]);
-      const newProduct = products.find((product) => product.key === key);
-      const addLength = (newProduct.newLength = getKeyLSG[key]);
-      console.log(addLength);
+    if (products.length) {
+      const cartProduct = [];
+      for (const key in getKeyLSG) {
+        let newProduct = products.find((product) => product.key === key);
+        newProduct.length = getKeyLSG[key];
+        cartProduct.push(newProduct);
+      }
+      setCart(cartProduct);
     }
   }, [products]);
 
