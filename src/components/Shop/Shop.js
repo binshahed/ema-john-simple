@@ -7,11 +7,15 @@ import "./Shop.css";
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+  const [searchProduct, setSearchProduct] = useState([]);
 
   useEffect(() => {
     fetch("./products.json")
       .then((res) => res.json())
-      .then((data) => setProducts(data));
+      .then((data) => {
+        setProducts(data);
+        setSearchProduct(data);
+      });
   }, []);
 
   useEffect(() => {
@@ -37,11 +41,25 @@ const Shop = () => {
     addToDb(product.key);
   };
 
+  const handleSearchProduct = (event) => {
+    const searchText = event.target.value;
+    const matchedProduct = products.filter((product) =>
+      product.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSearchProduct(matchedProduct);
+  };
+
   return (
-    <div>
+    <>
+      <div className="search-container">
+        <input
+          onChange={handleSearchProduct}
+          placeholder="Search your Product"
+        />
+      </div>
       <div className="container">
         <div className="products-container">
-          {products.map((product) => (
+          {searchProduct.map((product) => (
             <Product
               product={product}
               key={product.key}
@@ -53,7 +71,7 @@ const Shop = () => {
           <Cart cart={cart} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
