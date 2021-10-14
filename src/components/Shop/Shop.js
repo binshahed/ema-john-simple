@@ -27,7 +27,6 @@ const Shop = () => {
         if (addedProduct) {
           const quantity = saveCart[key];
           addedProduct.quantity = quantity;
-          console.log(addedProduct);
           storedCart.push(addedProduct);
         }
       }
@@ -36,7 +35,16 @@ const Shop = () => {
   }, [products]);
 
   const handleAddToCart = (product) => {
-    const newCart = [...cart, product];
+    const sameProduct = cart.find((x) => x.key === product.key);
+    let newCart;
+    if (sameProduct) {
+      sameProduct.quantity = sameProduct.quantity + 1;
+      const others = cart.filter((x) => x.key !== product.key);
+      newCart = [...others, sameProduct];
+    } else {
+      product.quantity = 1;
+      newCart = [...cart, product];
+    }
     setCart(newCart);
     addToDb(product.key);
   };
