@@ -1,24 +1,22 @@
 import "./Cart.css";
 const Cart = (props) => {
   const { cart } = props;
-  console.log(cart);
 
   let totalPrice = 0;
-  let totalProduct = 0;
+  let totalQuantity = 0;
   for (const product of cart) {
-    if (!product.length) {
-      product.length = 1;
+    if (!product.quantity) {
+      product.quantity = 1;
     }
-    totalProduct = totalProduct + product.length;
+    totalQuantity = totalQuantity + product.quantity;
 
-    totalPrice = totalPrice + product.price * product.length;
-    console.log(totalPrice);
+    totalPrice = totalPrice + product.price * product.quantity;
   }
 
   return (
     <div className="my-cart">
       <h3>Order Summary</h3>
-      <h4>Items ordered: {totalProduct}</h4>
+      <h4>Items ordered: {totalQuantity}</h4>
       <p>Total Price: {totalPrice}</p>
     </div>
   );

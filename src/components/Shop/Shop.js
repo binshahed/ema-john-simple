@@ -15,15 +15,19 @@ const Shop = () => {
   }, []);
 
   useEffect(() => {
-    const getKeyLSG = getStoredCart();
     if (products.length) {
-      const cartProduct = [];
-      for (const key in getKeyLSG) {
-        let newProduct = products.find((product) => product.key === key);
-        newProduct.length = getKeyLSG[key];
-        cartProduct.push(newProduct);
+      const saveCart = getStoredCart();
+      const storedCart = [];
+      for (const key in saveCart) {
+        const addedProduct = products.find((product) => product.key === key);
+        if (addedProduct) {
+          const quantity = saveCart[key];
+          addedProduct.quantity = quantity;
+          console.log(addedProduct);
+          storedCart.push(addedProduct);
+        }
       }
-      setCart(cartProduct);
+      setCart(storedCart);
     }
   }, [products]);
 
