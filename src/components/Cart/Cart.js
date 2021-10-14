@@ -3,7 +3,7 @@ const Cart = (props) => {
   const { cart } = props;
   console.log(cart);
 
-  let totalPrice = 0;
+  let total = 0;
   let totalQuantity = 0;
   for (const product of cart) {
     if (!product.quantity) {
@@ -11,14 +11,44 @@ const Cart = (props) => {
     }
     totalQuantity = totalQuantity + product.quantity;
 
-    totalPrice = totalPrice + product.price * product.quantity;
+    total = total + product.price * product.quantity;
   }
+  const shipping = total > 0 ? 15 : 0;
+  const tax = (shipping + total) * 0.12;
+  const grandTotal = total + shipping + tax;
 
   return (
-    <div className="my-cart">
-      <h3>Order Summary</h3>
-      <h4>Items ordered: {totalQuantity}</h4>
-      <p>Total Price: {totalPrice}</p>
+    <div className="cart">
+      <div className="order-title">
+        <h3>Order Summary</h3>
+        <p>
+          Items ordered:<span className="cart-amount"> {totalQuantity}</span>
+        </p>
+      </div>
+
+      <table className="cart-table">
+        <tbody>
+          <tr>
+            <td>Items:</td>
+            <td>${total.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td>Shipping & Handling:</td>
+            <td>${shipping}</td>
+          </tr>
+          <tr>
+            <td>Estimated Tax:</td>
+            <td>${tax.toFixed(2)}</td>
+          </tr>
+          <tr className="grand-total">
+            <td>Grand Total:</td>
+            <td>${grandTotal.toFixed(2)}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="btn-container">
+        <button className="review-btn">Review your order</button>
+      </div>
     </div>
   );
 };
