@@ -4,13 +4,17 @@ import "./Product.css";
 import Rating from "react-rating";
 
 const Product = (props) => {
-  const { name, price, seller, stock, img, star } = props.product;
+  const { name, price, seller, stock, img, star, key } = props.product;
   return (
     <div>
       <div className="product-container">
-        <div className="image-container">
-          <img src={img} alt="product img" />
-        </div>
+        {props.image ? (
+          <div className="image-container">
+            <img src={img} alt="product img" />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="product-body-container">
           <h3> {name}</h3>
           <p>
@@ -24,10 +28,20 @@ const Product = (props) => {
             fullSymbol="fas fa-star fa-2x"
             readonly
           />
-          <p>only {stock} left in stock - order soon</p>
-          <button onClick={() => props.handleAddToCart(props.product)}>
-            <FontAwesomeIcon icon={faShoppingCart} /> add to cart
-          </button>
+          {props.quantity ? (
+            <p>quantity: {props.product.quantity} </p>
+          ) : (
+            <p>only {stock} left in stock - order soon</p>
+          )}
+          {props.handleAddToCart ? (
+            <button onClick={() => props.handleAddToCart(props.product)}>
+              <FontAwesomeIcon icon={faShoppingCart} /> add to cart
+            </button>
+          ) : (
+            <button onClick={() => props.handleRemoveProduct(key)}>
+              Remove
+            </button>
+          )}
         </div>
       </div>
     </div>

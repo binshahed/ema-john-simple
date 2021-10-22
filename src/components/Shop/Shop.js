@@ -3,6 +3,8 @@ import { addToDb, getStoredCart } from "../../utilities/fakedb";
 import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import "./Shop.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -64,11 +66,17 @@ const Shop = () => {
           onChange={handleSearchProduct}
           placeholder="Search your Product"
         />
+        <FontAwesomeIcon
+          style={{ color: "#fff", margin: " 0 5px 0 20px" }}
+          icon={faShoppingCart}
+        />
+        <span style={{ color: "goldenrod" }}>{cart.length}</span>
       </div>
       <div className="container">
         <div className="products-container">
           {searchProduct.map((product) => (
             <Product
+              image
               product={product}
               key={product.key}
               handleAddToCart={handleAddToCart}

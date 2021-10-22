@@ -1,20 +1,17 @@
 import "./App.css";
 import Header from "./components/Header/Header";
 import Shop from "./components/Shop/Shop";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Review from "./components/Review/Review";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import Review from "./components/OrderReview/OrderReview";
 import NotMatch from "./components/NotMatch/NotMatch";
+import Inventory from "./components/Inventory/Inventory";
 
 function App() {
   return (
     <div>
-      <Router>
+      <BrowserRouter>
         <Header />
         <Switch>
-          <Route exact path="/">
-            <Shop />
-          </Route>
-
           <Route path="/shop">
             <Shop />
           </Route>
@@ -22,12 +19,19 @@ function App() {
           <Route path="/review">
             <Review />
           </Route>
+          <Route path="/inventory">
+            <Inventory />
+          </Route>
+
+          <Route exact path="/">
+            <Shop />
+          </Route>
 
           <Route path="*">
             <NotMatch />
           </Route>
         </Switch>
-      </Router>
+      </BrowserRouter>
     </div>
   );
 }
