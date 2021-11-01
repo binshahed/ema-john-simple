@@ -1,6 +1,9 @@
+import { Link } from "react-router-dom";
+import { clearTheCart } from "../../utilities/fakedb";
 import "./Cart.css";
 const Cart = (props) => {
-  const { cart } = props;
+  const { cart,setProducts } = props;
+  
 
   let total = 0;
   let totalQuantity = 0;
@@ -15,6 +18,8 @@ const Cart = (props) => {
   const shipping = total > 0 ? 15 : 0;
   const tax = (shipping + total) * 0.12;
   const grandTotal = total + shipping + tax;
+
+ 
 
   return (
     <div className="cart">
@@ -46,7 +51,12 @@ const Cart = (props) => {
         </tbody>
       </table>
       <div className="btn-container">
-        <button className="review-btn">Review your order</button>
+        {
+          props.shop? <Link to="/review"><button className="review-btn">Review Order</button></Link>:(
+            <Link to="/inventory"><button className="review-btn">proceed checkout</button></Link>
+          )
+        }
+        
       </div>
     </div>
   );

@@ -5,10 +5,19 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
 import Review from "./components/OrderReview/OrderReview";
 import NotMatch from "./components/NotMatch/NotMatch";
 import Inventory from "./components/Inventory/Inventory";
+import Register from "./components/Register/Register";
+import initializeAuthentication from "./firebase/firebase.initialize";
+import Login from "./components/Login/Login";
+import AuthProvider from "./components/context/AuthProvider";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+
+initializeAuthentication();
 
 function App() {
   return (
     <div>
+      
+      <AuthProvider>
       <BrowserRouter>
         <Header />
         <Switch>
@@ -19,8 +28,14 @@ function App() {
           <Route path="/review">
             <Review />
           </Route>
-          <Route path="/inventory">
+          <PrivateRoute path="/inventory">
             <Inventory />
+          </PrivateRoute>
+          <Route path="/login">
+          <Login/>
+          </Route>
+          <Route path="/register">
+          <Register/>
           </Route>
 
           <Route exact path="/">
@@ -32,6 +47,7 @@ function App() {
           </Route>
         </Switch>
       </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }

@@ -73,7 +73,8 @@ const Shop = () => {
         <span style={{ color: "goldenrod" }}>{cart.length}</span>
       </div>
       <div className="container">
-        <div className="products-container">
+        <div className="row">
+        <div className="products-container col-8">
           {searchProduct.map((product) => (
             <Product
               image
@@ -83,8 +84,9 @@ const Shop = () => {
             />
           ))}
         </div>
-        <div className="cart-container">
-          <Cart cart={cart} />
+        <div className="cart-container col-4">
+          <Cart shop cart={cart}  />
+        </div>
         </div>
       </div>
     </>

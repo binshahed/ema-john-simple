@@ -17,7 +17,8 @@ const Review = () => {
 
   return (
     <div className="container">
-      <div className="products-container">
+     <div className="row">
+     <div className="products-container col-8">
         {cart.map((product) => (
           <Product
             quantity
@@ -27,9 +28,10 @@ const Review = () => {
           />
         ))}
       </div>
-      <div className="cart-container">
-        <Cart cart={cart} />
+      <div className="cart-container col-4">
+        <Cart cart={cart} setProducts={setProducts} />
       </div>
+     </div>
     </div>
   );
 };
