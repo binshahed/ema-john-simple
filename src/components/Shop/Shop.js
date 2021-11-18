@@ -5,49 +5,42 @@ import Product from "../Product/Product";
 import "./Shop.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import useCart from "../../hooks/useCart";
+import useProduct from "../../hooks/useProducts";
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useCart();
   const [searchProduct, setSearchProduct] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [page, setPage] = useState(0);
 
+  const size = 10;
   useEffect(() => {
-    fetch("./products.json")
+    fetch(`http://localhost:5000/products?page=${page}&&size=${size}`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data);
-        setSearchProduct(data);
+        setProducts(data.products);
+        setSearchProduct(data.products);
+        const count = data.count;
+        const pageNumber = Math.ceil(count / size);
+        setPageCount(pageNumber);
       });
-  }, []);
-
-  useEffect(() => {
-    if (products.length) {
-      const saveCart = getStoredCart();
-      const storedCart = [];
-      for (const key in saveCart) {
-        const addedProduct = products.find((product) => product.key === key);
-        if (addedProduct) {
-          const quantity = saveCart[key];
-          addedProduct.quantity = quantity;
-          storedCart.push(addedProduct);
-        }
-      }
-      setCart(storedCart);
-    }
-  }, [products]);
+  }, [page]);
 
   const handleAddToCart = (product) => {
-    const sameProduct = cart.find((x) => x.key === product.key);
-    let newCart;
-    if (sameProduct) {
-      sameProduct.quantity = sameProduct.quantity + 1;
-      const others = cart.filter((x) => x.key !== product.key);
-      newCart = [...others, sameProduct];
+    const exists = cart.find((pd) => pd.key === product.key);
+    let newCart = [];
+    if (exists) {
+      const rest = cart.filter((pd) => pd.key !== product.key);
+      exists.quantity = exists.quantity + 1;
+      newCart = [...rest, product];
     } else {
       product.quantity = 1;
       newCart = [...cart, product];
     }
     setCart(newCart);
+    // save to local storage (for now)
     addToDb(product.key);
   };
 
@@ -74,19 +67,30 @@ const Shop = () => {
       </div>
       <div className="container">
         <div className="row">
-        <div className="products-container col-8">
-          {searchProduct.map((product) => (
-            <Product
-              image
-              product={product}
-              key={product.key}
-              handleAddToCart={handleAddToCart}
-            />
-          ))}
-        </div>
-        <div className="cart-container col-4">
-          <Cart shop cart={cart}  />
-        </div>
+          <div className="products-container col-8">
+            {searchProduct.map((product) => (
+              <Product
+                image
+                product={product}
+                key={product.key}
+                handleAddToCart={handleAddToCart}
+              />
+            ))}
+            <div className="pagination">
+              {[...Array(pageCount).keys()].map((pageNo) => (
+                <button
+                  key={pageNo}
+                  onClick={() => setPage(pageNo)}
+                  className={pageNo !== page ? "btn btn-dark" : "btn"}
+                >
+                  {pageNo + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="cart-container col-4">
+            <Cart shop cart={cart} />
+          </div>
         </div>
       </div>
     </>

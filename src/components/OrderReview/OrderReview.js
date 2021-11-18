@@ -7,7 +7,7 @@ import Product from "../Product/Product";
 
 const Review = () => {
   const [products, setProducts] = useProduct([]);
-  const [cart, setCart] = useCart(products);
+  const [cart, setCart] = useCart();
 
   const handleRemoveProduct = (id) => {
     const newProducts = cart.filter((product) => product.key !== id);
@@ -17,21 +17,21 @@ const Review = () => {
 
   return (
     <div className="container">
-     <div className="row">
-     <div className="products-container col-8">
-        {cart.map((product) => (
-          <Product
-            quantity
-            handleRemoveProduct={handleRemoveProduct}
-            key={product.key}
-            product={product}
-          />
-        ))}
+      <div className="row">
+        <div className="products-container col-8">
+          {cart.map((product) => (
+            <Product
+              quantity
+              handleRemoveProduct={handleRemoveProduct}
+              key={product.key}
+              product={product}
+            />
+          ))}
+        </div>
+        <div className="cart-container col-4">
+          <Cart cart={cart} setProducts={setProducts} />
+        </div>
       </div>
-      <div className="cart-container col-4">
-        <Cart cart={cart} setProducts={setProducts} />
-      </div>
-     </div>
     </div>
   );
 };

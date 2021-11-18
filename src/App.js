@@ -10,43 +10,46 @@ import initializeAuthentication from "./firebase/firebase.initialize";
 import Login from "./components/Login/Login";
 import AuthProvider from "./components/context/AuthProvider";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import AddProduct from "./dashboard/AddProduct";
 
 initializeAuthentication();
 
 function App() {
   return (
     <div>
-      
       <AuthProvider>
-      <BrowserRouter>
-        <Header />
-        <Switch>
-          <Route path="/shop">
-            <Shop />
-          </Route>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route path="/shop">
+              <Shop />
+            </Route>
 
-          <Route path="/review">
-            <Review />
-          </Route>
-          <PrivateRoute path="/inventory">
-            <Inventory />
-          </PrivateRoute>
-          <Route path="/login">
-          <Login/>
-          </Route>
-          <Route path="/register">
-          <Register/>
-          </Route>
+            <Route path="/review">
+              <Review />
+            </Route>
+            <Route path="/addProduct">
+              <AddProduct />
+            </Route>
+            <PrivateRoute path="/inventory">
+              <Inventory />
+            </PrivateRoute>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/register">
+              <Register />
+            </Route>
 
-          <Route exact path="/">
-            <Shop />
-          </Route>
+            <Route exact path="/">
+              <Shop />
+            </Route>
 
-          <Route path="*">
-            <NotMatch />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+            <Route path="*">
+              <NotMatch />
+            </Route>
+          </Switch>
+        </BrowserRouter>
       </AuthProvider>
     </div>
   );
